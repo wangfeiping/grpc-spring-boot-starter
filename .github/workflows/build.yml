@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['8', '11']
+        java: ['8']
     steps:
       - uses: actions/checkout@v2
       - name: Set up java ${{ matrix.java }}
@@ -27,5 +27,7 @@ jobs:
         run: chmod +x gradlew
       - name: Output hosts
         run: cat /etc/hosts
-      - name: Build with Gradle
-        run: ./gradlew --scan --stacktrace --warning-mode=all build
+      - name: nslookup localhost
+        run: nslookup localhost
+#      - name: Build with Gradle
+#        run: ./gradlew --scan --stacktrace --warning-mode=all build
