@@ -13,8 +13,21 @@ jobs:
         java: ['8']
     steps:
       - uses: actions/checkout@v2
-      - name: revert
-        run: sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+      - name: "Setup /etc/hosts for Linux"
+        shell: bash
+        run: |
+          if [ `uname` = "Linux" ]; then
+            echo "\$ cat /etc/hosts"
+            cat /etc/hosts
+            echo
+            (
+              echo "127.0.0.1       localhost";
+              echo "::1     localhost ip6-localhost ip6-loopback";
+            ) | sudo tee /etc/hosts
+            echo
+            echo "\$ cat /etc/hosts"
+            cat /etc/hosts
+          fi
       - name: Set up java ${{ matrix.java }}
         uses: actions/setup-java@v1
         with:
