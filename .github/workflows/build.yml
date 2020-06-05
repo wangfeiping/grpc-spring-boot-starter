@@ -11,7 +11,7 @@ jobs:
         java: ['8']
     steps:
       - uses: actions/checkout@v2
-        
+
       # https://github.com/actions/virtual-environments/issues/929
       - name: "Setup /etc/hosts for Linux"
         shell: bash
@@ -28,32 +28,32 @@ jobs:
             echo "\$ cat /etc/hosts"
             cat /etc/hosts
           fi
-      
+
       - name: Set up java ${{ matrix.java }}
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-      
+
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-  
+
       - name: Decrypt file
         run: openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in private.key.enc -out ./private.key -d && gpg --import ./private.key || echo
-        if: github.event == 'push' && github.ref == 'github_action' 
+        if: github.event == 'push' && github.ref == 'github_action'
 
       - name: Build with Gradle
         run: ./gradlew --scan --stacktrace --warning-mode=all build
-      
+
       - name: Deploy with Gradle
         run: ./gradlew --scan publish -x check
-        if: github.event == 'push' && github.ref == 'github_action' 
+        if: github.event == 'push' && github.ref == 'github_action'
         env:
           GPG_ID: ${{ secrets.GPG_ID }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
