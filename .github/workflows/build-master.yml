@@ -47,11 +47,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: fdsad
-        run: cd ~/ && pwd
-
       - name: Decrypt file
         run: openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in private.key.enc -out ./private.key -d && gpg --import ./private.key || echo
+
+      - name: fdsad
+        run: export GPG_TTY=$(tty)
 
       - name: Build with Gradle
         run: ./gradlew --scan --stacktrace --warning-mode=all build
