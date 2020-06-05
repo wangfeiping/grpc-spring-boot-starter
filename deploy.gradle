@@ -4,7 +4,7 @@ apply plugin: 'signing'
 gradle.taskGraph.whenReady { taskGraph ->
     if (taskGraph.allTasks.any { it instanceof Sign } && project.ext.isReleaseVersion) {
         def id = System.getenv('GPG_ID')
-        def file = '/home/travis/.gnupg/secring.gpg'
+        def file = '/home/runner/.gnupg/secring.gpg'
         def password = System.getenv('GPG_PASSWORD')
 
         allprojects { ext."signing.keyId" = id }
