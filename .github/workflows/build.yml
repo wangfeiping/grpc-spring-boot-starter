@@ -46,10 +46,16 @@ jobs:
   
       - name: Decrypt file
         run: openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in private.key.enc -out ./private.key -d && gpg --import ./private.key || echo
-      
+        if: github.event == 'push' && github.ref == 'github_action' 
+
       - name: Build with Gradle
         run: ./gradlew --scan --stacktrace --warning-mode=all build
       
       - name: Deploy with Gradle
         run: ./gradlew --scan publish -x check
-        if: github.event == 'push' && github.ref == 'master' 
+        if: github.event == 'push' && github.ref == 'github_action' 
+        env:
+          GPG_ID: ${{ secrets.GPG_ID }}
+          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+          OSSRH_USER: ${{ secrets.OSSRH_USER }}
+          OSSRH_PASS: ${{ secrets.OSSRH_PASS }}
