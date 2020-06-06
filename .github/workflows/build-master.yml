@@ -55,7 +55,7 @@ jobs:
 
       - name: Deploy with Gradle
         run: ./gradlew --scan publish -x check -Psigning.gnupg.executable=gpg -Psigning.gnupg.keyName=${{ secrets.GPG_NAME }} -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSWORD }}
+        if: ${{ matrix.java == '8' }}
         env:
           OSSRH_USER: ${{ secrets.OSSRH_USER }}
           OSSRH_PASS: ${{ secrets.OSSRH_PASS }}
-        if: ${{ matrix.java }} == '8'
