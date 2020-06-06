@@ -1,18 +1,6 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-gradle.taskGraph.whenReady { taskGraph ->
-    if (taskGraph.allTasks.any { it instanceof Sign } && project.ext.isReleaseVersion) {
-        def id = System.getenv('GPG_ID')
-        def file = '/home/runner/.gnupg/secring.gpg'
-        def password = System.getenv('GPG_PASSWORD')
-
-        allprojects { ext."signing.keyId" = id }
-        allprojects { ext."signing.secretKeyRingFile" = file }
-        allprojects { ext."signing.password" = password }
-    }
-}
-
 ext {
     isReleaseVersion = !(projectVersion =~ /-SNAPSHOT$/)
     isNeedSign = System.getenv('GPG_ID') && isReleaseVersion
@@ -85,6 +73,7 @@ publishing {
 
     signing {
         required { project.ext.isNeedSign }
+        useGpgCmd()
         sign publishing.publications.mavenJava
     }
 

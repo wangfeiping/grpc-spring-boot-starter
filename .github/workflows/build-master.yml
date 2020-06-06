@@ -47,21 +47,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: fdsad
-        run: export GPG_TTY=$(tty)
-
       - name: Decrypt file
         run: openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in private.key.enc -out ./private.key -d && gpg --batch --import ./private.key || echo
 
-      - name: Generate secring.gpg
-        run: gpg --keyring secring.gpg --export-secret-keys ${{ secrets.GPG_ID }} > ~/.gnupg/secring.gpg
       - name: Build with Gradle
         run: ./gradlew --scan --stacktrace --warning-mode=all build
 
       - name: Deploy with Gradle
-        run: ./gradlew --scan publish -x check
+        run: ./gradlew --scan publish -x check -Psigning.gnupg.executable=gpg -Psigning.gnupg.keyName=${{ secrets.GPG_NAME }} -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSWORD }}
         env:
-          GPG_ID: ${{ secrets.GPG_ID }}
-          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
           OSSRH_USER: ${{ secrets.OSSRH_USER }}
           OSSRH_PASS: ${{ secrets.OSSRH_PASS }}
