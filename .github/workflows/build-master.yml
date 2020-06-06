@@ -51,8 +51,10 @@ jobs:
         run: export GPG_TTY=$(tty)
 
       - name: Decrypt file
-        run: openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in private.key.enc -out ./private.key -d && gpg --batch --import ./private.key && gpg --keyring secring.gpg --export-secret-keys ${{ secrets.GPG_ID }} > ~/.gnupg/secring.gpg || echo
+        run: openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in private.key.enc -out ./private.key -d && gpg --batch --import ./private.key || echo
 
+      - name: Generate secring.gpg
+        run: gpg --keyring secring.gpg --export-secret-keys ${{ secrets.GPG_ID }} > ~/.gnupg/secring.gpg
       - name: Build with Gradle
         run: ./gradlew --scan --stacktrace --warning-mode=all build
 
