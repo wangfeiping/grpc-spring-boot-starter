@@ -55,6 +55,15 @@ publishing {
                     url = 'https://github.com/yidongnan/grpc-spring-boot-starter'
                 }
             }
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
         }
     }
     repositories {

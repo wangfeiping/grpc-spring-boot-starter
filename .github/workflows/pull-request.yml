@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['8']
+        java: ['8', '11']
     steps:
       - uses: actions/checkout@v2
 
@@ -46,3 +46,7 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew --scan --stacktrace --warning-mode=all build
+
+      # Avoid publish errors when upgrading gradle version
+      - name: Try publishToMavenLocal
+        run: ./gradlew publishToMavenLocal
