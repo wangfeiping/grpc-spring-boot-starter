@@ -47,6 +47,6 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew --scan --stacktrace --warning-mode=all build
 
-      # Avoid publish errors when upgrading gradle version
+      # Avoid publish errors when upgrading gradle version and dependencyManager plugin
       - name: Try publishToMavenLocal
         run: ./gradlew publishToMavenLocal
