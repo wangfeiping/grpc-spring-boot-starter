@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus:latest.release'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test'){
         exclude module: 'junit-vintage-engine'
