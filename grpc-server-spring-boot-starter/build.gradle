@@ -9,4 +9,5 @@ version = projectVersion
 
 dependencies {
     api project(':grpc-server-spring-boot-autoconfigure')
+    compile 'io.micrometer:micrometer-registry-prometheus:latest.release'
 }
