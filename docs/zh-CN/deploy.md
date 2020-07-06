@@ -26,7 +26,7 @@ http://172.17.15.54:9411/
 
 ```
 
-# 172.17.15.53
+# 172.17.15.53 Eureka 单机
 
 ```
 gradle
@@ -52,6 +52,44 @@ http://172.17.15.53:8761/
 
 ```
 
+# Eureka 集群
+
+### 172.17.15.53
+
+$ vi start-eureka.sh
+
+$ # sh start-eureka.sh
+
+```
+#!/bin/bash
+
+# cloud-eureka-server
+# http://172.17.15.53:8763/
+
+nohup java -jar /apps/eureka/cloud-eureka-server.jar \
+        --spring.profiles.active=eurekaServer53 \
+    >> /apps/logs/eureka/eureka.log 2>&1 &
+
+```
+
+### 172.17.15.52
+
+$ vi start-eureka.sh
+
+$ # sh start-eureka.sh
+
+```
+#!/bin/bash
+
+# cloud-eureka-server
+# http://172.17.15.52:8762/
+
+nohup java -jar /apps/eureka/cloud-eureka-server.jar \
+        --spring.profiles.active=eurekaServer52 \
+    >> /apps/logs/eureka/eureka.log 2>&1 &
+
+```
+
 # 172.17.15.52
 
 ```
@@ -72,7 +110,7 @@ eureka:
   client:
     ...
     service-url:
-      defaultZone: http://172.17.15.53:8761/eureka/
+      defaultZone: http://172.17.15.52:8762/eureka/,http://172.17.15.53:8763/eureka/
 
 $ ./gradlew :example:cloud-grpc-server:bootRun
 or
@@ -103,7 +141,7 @@ eureka:
   client:
     ...
     service-url:
-      defaultZone: http://172.17.15.53:8761/eureka/
+      defaultZone: http://172.17.15.52:8762/eureka/,http://172.17.15.53:8763/eureka/
 
 $ ./gradlew :example:cloud-grpc-client:bootRun
 or
