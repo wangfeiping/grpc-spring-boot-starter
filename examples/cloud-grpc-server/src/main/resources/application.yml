@@ -5,7 +5,11 @@ spring:
     sampler:
       probability: 1
   zipkin:
-    base-url: http://172.17.15.54:9411
+    # base-url: http://172.17.15.54:9411
+    sender:
+        type: kafka
+  kafka:
+    bootstrap-servers: 172.17.15.54:9092
 server:
   port: 0
 grpc:
