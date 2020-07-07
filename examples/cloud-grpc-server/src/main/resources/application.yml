@@ -19,7 +19,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://172.17.15.52:8762/eureka/,http://172.17.15.53:8763/eureka/
+      defaultZone: http://172.17.15.52:8762/eureka/,http://172.17.15.53:8761/eureka/,http://172.17.15.54:8764/eureka/
 management:
   server:
     port: 9090
