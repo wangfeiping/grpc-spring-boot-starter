@@ -101,8 +101,8 @@ eureka:
     lease-expiration-duration-in-seconds: 30
     lease-renewal-interval-in-seconds: 30
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
             defaultZone: http://172.17.15.53:8761/eureka/,http://172.17.15.54:8764/eureka/
   server:
@@ -189,8 +189,8 @@ eureka:
     lease-expiration-duration-in-seconds: 30
     lease-renewal-interval-in-seconds: 30
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
             defaultZone: http://172.17.15.52:8762/eureka/,http://172.17.15.54:8764/eureka/
   server:
@@ -277,8 +277,8 @@ eureka:
     lease-expiration-duration-in-seconds: 30
     lease-renewal-interval-in-seconds: 30
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
             defaultZone: http://172.17.15.52:8762/eureka/,http://172.17.15.53:8761/eureka/
   server:
